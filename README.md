@@ -144,6 +144,12 @@ This project was built for educational purposes as part of a Web3 workshop. Feel
 
 CBRKLRINKR4ULCRQ3Z5F2XHW6M4FWK7LXZYCU2EGXCK3Q2PU2H4YYUKO
 
+---
+
+## Images Stellar Expert
+<img width="1917" height="901" alt="image" src="https://github.com/user-attachments/assets/63ad9c64-27db-4cad-b8ac-d1980aa3e117" />
+
+---
 
 > Built with ❤️ using Soroban Smart Contracts on the Stellar Blockchain
 
