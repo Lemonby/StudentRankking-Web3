@@ -10,6 +10,17 @@ This project was built as part of a **Web3 Workshop** with the goal of developin
 
 ---
 
+## ✨ Features
+
+Student Registration — Register students with their name, GPA, and parent's income. Input is validated automatically (GPA cannot exceed 4.00).
+Objective Scoring System — Each student is scored based on a normalized formula that balances academic achievement (GPA) and financial need (parent's income).
+Automated Ranking — An on-chain selection sort algorithm ranks all students by total score without relying on any external dependencies.
+Top 3 Selection — Returns only the top 3 highest-scoring students as scholarship recipients, complete with rank and final score.
+Student Removal — Administrators can remove a student record by unique ID at any time.
+Tamper-Proof & Transparent — All data and logic live on-chain. The selection process cannot be manipulated, and results are publicly verifiable on the Stellar blockchain explorer.
+
+---
+
 ## ⚙️ Selection Parameters
 
 The system uses two parameters to determine scholarship recipients:
