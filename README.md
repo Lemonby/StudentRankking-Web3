@@ -1,53 +1,53 @@
-# 🎓 Sistem Seleksi Beasiswa Mahasiswa
+# 🎓 Student Scholarship Selection System
 
-Smart contract berbasis **Soroban (Stellar blockchain)** untuk menyeleksi dan meranking penerima beasiswa secara transparan dan otomatis. Sistem mengevaluasi mahasiswa berdasarkan dua parameter objektif dan menentukan **3 penerima beasiswa terbaik**.
-
----
-
-## 📋 Deskripsi Proyek
-
-Proyek ini dibuat dalam rangka **Workshop Web3** dengan tujuan membangun aplikasi decentralized di atas blockchain Stellar menggunakan Soroban smart contract. Dengan memanfaatkan teknologi blockchain, proses seleksi beasiswa menjadi **transparan**, **tidak dapat dimanipulasi**, dan **otomatis** tanpa perantara.
+A **Soroban (Stellar blockchain)** smart contract that transparently and automatically selects and ranks scholarship recipients. The system evaluates students based on two objective parameters and determines the **top 3 scholarship recipients**.
 
 ---
 
-## ⚙️ Parameter Seleksi
+## 📋 Project Description
 
-Sistem menggunakan dua parameter untuk menentukan penerima beasiswa:
+This project was built as part of a **Web3 Workshop** with the goal of developing a decentralized application on the Stellar blockchain using Soroban smart contracts. By leveraging blockchain technology, the scholarship selection process becomes **transparent**, **tamper-proof**, and **fully automated** without any intermediaries.
 
-| Parameter | Keterangan | Bobot |
+---
+
+## ⚙️ Selection Parameters
+
+The system uses two parameters to determine scholarship recipients:
+
+| Parameter | Description | Weight |
 |---|---|---|
-| **IPK** | Semakin tinggi semakin baik (maks. 4.00) | 0 – 500 poin |
-| **Pendapatan Orang Tua** | Semakin kecil semakin prioritas | 0 – 500 poin |
-| **Total Skor** | Gabungan kedua parameter | 0 – 1000 poin |
+| **GPA** | Higher is better (max. 4.00) | 0 – 500 points |
+| **Parent's Income** | Lower income gets higher priority | 0 – 500 points |
+| **Total Score** | Combined score of both parameters | 0 – 1000 points |
 
-### Formula Scoring
+### Scoring Formula
 
 ```
-Skor IPK         = (ipk / 400) × 500
-Skor Pendapatan  = ((10.000.000 - pendapatan) / 10.000.000) × 500
-Total Skor       = Skor IPK + Skor Pendapatan
+GPA Score     = (gpa / 400) × 500
+Income Score  = ((10,000,000 - income) / 10,000,000) × 500
+Total Score   = GPA Score + Income Score
 ```
 
-> **Catatan:** IPK diinput dikali 100 untuk menghindari float (IPK 3.75 → input `375`). Pendapatan orang tua diinput dalam satuan rupiah.
+> **Note:** GPA is multiplied by 100 to avoid floating point (e.g. GPA 3.75 → input `375`). Parent's income is entered in Indonesian Rupiah (IDR).
 
 ---
 
-## 🛠️ Teknologi
+## 🛠️ Tech Stack
 
-- **Bahasa:** Rust (`#![no_std]`)
-- **Platform:** [Soroban](https://soroban.stellar.org/) – Smart Contract Stellar
+- **Language:** Rust (`#![no_std]`)
+- **Platform:** [Soroban](https://soroban.stellar.org/) – Stellar Smart Contracts
 - **SDK:** `soroban-sdk`
 
 ---
 
-## 📁 Struktur Proyek
+## 📁 Project Structure
 
 ```
 contracts/
 └── notes/
     └── src/
-        ├── lib.rs      # Smart contract utama
-        └── test.rs     # Unit test
+        ├── lib.rs      # Main smart contract
+        └── test.rs     # Unit tests
     ├── Cargo.toml
     └── Makefile
 Cargo.toml
@@ -57,42 +57,42 @@ README.md
 
 ---
 
-## 🚀 Fungsi Kontrak
+## 🚀 Contract Functions
 
 ### `get_mahasiswa(env) -> Vec<Mahasiswa>`
-Mengambil seluruh daftar mahasiswa yang telah terdaftar.
+Returns the full list of all registered students.
 
 ### `daftar_mahasiswa(env, nama, ipk, pendapatan) -> String`
-Mendaftarkan mahasiswa baru ke dalam sistem.
+Registers a new student into the system.
 
-**Parameter:**
-- `nama` – Nama lengkap mahasiswa
-- `ipk` – IPK dikali 100 (contoh: IPK 3.75 → `375`)
-- `pendapatan` – Pendapatan orang tua per bulan (dalam rupiah)
+**Parameters:**
+- `nama` – Student's full name
+- `ipk` – GPA multiplied by 100 (e.g. GPA 3.75 → `375`)
+- `pendapatan` – Parent's monthly income (in IDR)
 
 ### `hapus_mahasiswa(env, id) -> String`
-Menghapus data mahasiswa berdasarkan ID unik.
+Removes a student record by their unique ID.
 
 ### `get_penerima_beasiswa(env) -> Vec<HasilBeasiswa>`
-Menghitung skor seluruh mahasiswa dan mengembalikan **3 mahasiswa teratas** sebagai penerima beasiswa, lengkap dengan peringkat dan skor akhir.
+Calculates scores for all students and returns the **top 3** as scholarship recipients, complete with their rank and final score.
 
 ---
 
-## 📊 Contoh Perhitungan
+## 📊 Scoring Example
 
-| Mahasiswa | IPK | Pendapatan | Skor IPK | Skor Pendapatan | Total |
+| Student | GPA | Income | GPA Score | Income Score | Total |
 |---|---|---|---|---|---|
-| Budi | 3.80 (input: 380) | Rp 2.000.000 | 475 | 400 | **875** |
-| Ani | 3.50 (input: 350) | Rp 500.000 | 437 | 475 | **912** ✅ |
-| Citra | 3.90 (input: 390) | Rp 8.000.000 | 487 | 100 | **587** |
+| Budi | 3.80 (input: 380) | IDR 2,000,000 | 475 | 400 | **875** |
+| Ani | 3.50 (input: 350) | IDR 500,000 | 437 | 475 | **912** ✅ |
+| Citra | 3.90 (input: 390) | IDR 8,000,000 | 487 | 100 | **587** |
 
-Dari contoh di atas, **Ani** mendapat peringkat lebih tinggi meskipun IPK-nya lebih rendah, karena pendapatan orang tuanya jauh lebih kecil.
+In the example above, **Ani** ranks higher despite having a lower GPA, because her parent's income is significantly lower — making her more eligible for financial aid.
 
 ---
 
-## 🔧 Cara Menjalankan
+## 🔧 Getting Started
 
-### Prasyarat
+### Prerequisites
 - [Rust](https://www.rust-lang.org/tools/install)
 - [Soroban CLI](https://soroban.stellar.org/docs/getting-started/setup)
 
@@ -108,7 +108,7 @@ cargo build --target wasm32-unknown-unknown --release
 cargo test
 ```
 
-### Deploy ke Testnet
+### Deploy to Testnet
 
 ```bash
 soroban contract deploy \
@@ -117,16 +117,16 @@ soroban contract deploy \
   --source <YOUR_SECRET_KEY>
 ```
 
-### Memanggil Fungsi
+### Invoke Contract Functions
 
 ```bash
-# Daftarkan mahasiswa
+# Register a student
 soroban contract invoke \
   --id <CONTRACT_ID> \
   --fn daftar_mahasiswa \
   -- --nama "Budi Santoso" --ipk 380 --pendapatan 2000000
 
-# Lihat penerima beasiswa
+# Get scholarship recipients
 soroban contract invoke \
   --id <CONTRACT_ID> \
   --fn get_penerima_beasiswa
@@ -134,14 +134,16 @@ soroban contract invoke \
 
 ---
 
-## 📄 Lisensi
+## 📄 License
 
-Proyek ini dibuat untuk keperluan edukasi dalam rangka workshop Web3. Bebas digunakan dan dimodifikasi.
+This project was built for educational purposes as part of a Web3 workshop. Feel free to use and modify it.
+
+---
 
 ## Contrack ID
 
 CBRKLRINKR4ULCRQ3Z5F2XHW6M4FWK7LXZYCU2EGXCK3Q2PU2H4YYUKO
 
----
 
-> Dibuat dengan ❤️ menggunakan Soroban Smart Contract – Stellar Blockchain
+> Built with ❤️ using Soroban Smart Contracts on the Stellar Blockchain
+
